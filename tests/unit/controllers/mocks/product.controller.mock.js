@@ -18,7 +18,13 @@ const oneProduct = {
   "name": "Martelo de Thor"
 };
 
+const newProduct = {
+  "id": 7,
+  "name": "Laço da mulher maravilha"
+};
+
 module.exports = {
   allProducts,
   oneProduct,
+  newProduct,
 }

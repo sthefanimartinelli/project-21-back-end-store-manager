@@ -26,6 +26,14 @@ describe('Testes de model de produtos', function () {
     });
   })
 
+  describe('Testes da função insert', function () {
+    it('Insere um produto corretamente e retorna o id', async function () {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 7 }]);
+      const productId = await productModel.insert('Laço da mulher maravilha');
+      expect(productId).to.be.equal(7);
+    });
+  })
+
   afterEach(function () {
     sinon.restore();
   });

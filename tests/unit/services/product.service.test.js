@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models');
-const { allProducts, oneProduct } = require('./mocks/product.service.mock');
+const { allProducts, oneProduct, newProduct } = require('./mocks/product.service.mock');
 
 describe('Testes de services de produtos', function () {
   describe('Testes da função findAll', function () { 
@@ -29,6 +29,17 @@ describe('Testes de services de produtos', function () {
 
       expect(productNotFound.type).to.be.equal('PRODUCT_NOT_FOUND');
       expect(productNotFound.message).to.be.deep.equal('Product not found');
+    });
+  })
+
+  describe('Testes da função insert', function () {
+    it('Insere um produto corretamente e retorna o novo produto', async function () {
+      sinon.stub(productModel, 'insert').resolves(7);
+      sinon.stub(productModel, 'findById').resolves(newProduct);
+      const products = await productService.insert();
+
+      expect(products.type).to.be.equal(null);
+      expect(products.message).to.be.deep.equal(newProduct);
     });
   })
 
