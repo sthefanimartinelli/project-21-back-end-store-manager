@@ -4,12 +4,10 @@ const validateProductFields = require('../middlewares/validateProductFields');
 
 const router = express.Router();
 
-router.use(validateProductFields);
-
 router.get('/', productController.findAll);
 
 router.get('/:id', productController.findById);
 
-router.post('/', productController.insert);
+router.post('/', validateProductFields, productController.insert);
 
 module.exports = router;

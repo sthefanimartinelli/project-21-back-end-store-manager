@@ -4,11 +4,11 @@
     "colId": "d60e98ec-4a7a-47ef-86e6-b2f49e565951",
     "containerId": "",
     "name": "http://localhost:3001/products/9",
-    "url": "http://localhost:3001/products/9",
+    "url": "http://localhost:3001/products/1",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-04-27T13:03:16.444Z",
-    "modified": "2023-04-27T13:03:16.444Z",
+    "modified": "2023-04-27T20:41:56.324Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -55,12 +55,12 @@
     "method": "POST",
     "sortNum": 40000,
     "created": "2023-04-27T14:57:36.335Z",
-    "modified": "2023-04-27T17:58:09.731Z",
+    "modified": "2023-04-27T20:44:38.764Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  },\n    {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
       "form": []
     },
     "tests": []
