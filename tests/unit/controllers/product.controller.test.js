@@ -74,7 +74,7 @@ describe('Testes de controller de produtos', function () {
       res.json = sinon.stub().returns();
       sinon
         .stub(productService, 'insert')
-        .resolves({ type: 'null', message: newProduct });
+        .resolves({ type: null, message: newProduct });
 
       await productController.insert(req, res);
 

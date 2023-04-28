@@ -8,4 +8,8 @@ router.use(validateSaleFields);
 
 router.post('/', saleController.insert);
 
+router.get('/', saleController.findAll);
+
+router.get('/:id', saleController.findById);
+
 module.exports = router;

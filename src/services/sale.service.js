@@ -1,6 +1,18 @@
 const { saleModel } = require('../models');
 const { validateSaleInput } = require('./validations/validateSaleInput');
 
+const findAll = async () => {
+  const sales = await saleModel.findAll();
+  return { type: null, message: sales };
+};
+
+const findById = async (saleId) => {
+  const sale = await saleModel.findById(saleId);
+  if (sale.length <= 0) return { type: 404, message: 'Sale not found' };
+
+  return { type: null, message: sale };
+};
+
 const insert = async (salesArray) => {
   const error = await validateSaleInput(salesArray);
   if (error.type) return error;
@@ -21,4 +33,6 @@ const insert = async (salesArray) => {
 
 module.exports = {
   insert,
+  findAll,
+  findById,
 };

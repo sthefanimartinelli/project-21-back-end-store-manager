@@ -1,7 +1,13 @@
-const saleInfoMock = {
-  id: 1,
-  date: '2023-04-27 20:44:50',
-};
+const wrongSaleToInsert = [
+  {
+    "productId": 1,
+    "quantity": -1
+  },
+  {
+    "productId": 2,
+    "quantity": 5
+  }
+];
 
 const saleToInsert = [
   {
@@ -29,7 +35,7 @@ const resultInsertSale = {
 };
 
 module.exports = {
-  saleInfoMock,
   saleToInsert,
   resultInsertSale,
+  wrongSaleToInsert,
 }
