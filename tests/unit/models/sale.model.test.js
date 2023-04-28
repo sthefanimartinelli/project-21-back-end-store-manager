@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/db/connection');
 const { saleModel } = require('../../../src/models');
-const { saleInfoMock, saleToInsert, resultInsertSale } = require('./mocks/sale.model.mock');
+const { saleInfoMock, saleToInsert, resultInsertSale, allSales, oneSale } = require('./mocks/sale.model.mock');
 
 describe('Testes de model de sales', function () {
   describe('Testes da função findSaleById', function () {
@@ -34,6 +34,28 @@ describe('Testes de model de sales', function () {
       sinon.stub(connection, 'execute').resolves([resultInsertSale]);
       const saleAndProduct = await saleModel.findSaleAndProductsById(3);
       expect(saleAndProduct).to.be.deep.equal(resultInsertSale);
+    });
+  })
+
+  describe('Testes da função findAll', function () {
+    it('Recuperando a lista de sales', async function () {
+      sinon.stub(connection, 'execute').resolves([allSales]);
+      const sales = await saleModel.findAll();
+      expect(sales).to.be.deep.equal(allSales);
+    });
+  })
+
+  describe('Testes da função findById', function () {
+    it('Recuperando uma sale a partir do seu id', async function () {
+      sinon.stub(connection, 'execute').resolves([oneSale]);
+      const sale = await saleModel.findById(1);
+      expect(sale).to.be.deep.equal(oneSale);
+    });
+
+    it('Retorna undefined ao pesquisar por produto que não existe', async function () {
+      sinon.stub(connection, 'execute').resolves([[]]);
+      const saleNotFound = await saleModel.findById(999);
+      expect(saleNotFound).to.be.deep.equal([]);
     });
   })
   
