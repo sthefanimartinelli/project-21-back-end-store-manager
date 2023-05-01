@@ -55,6 +55,30 @@ const findSaleAndProductsById = async (saleId) => {
   return result;
 };
 
+const deleteSaleFromTableSalesProducts = async (id) => {
+  const [result] = await connection.execute(
+    `DELETE FROM StoreManager.sales_products
+      WHERE sale_id = ?`,
+    [id],
+  );
+  return result;
+};
+
+const deleteProductFromTableSales = async (id) => {
+  const [result] = await connection.execute(
+    `DELETE FROM StoreManager.sales
+      WHERE id = ?`,
+    [id],
+  );
+  return result;
+};
+
+const deleteSale = async (id) => { 
+  await deleteSaleFromTableSalesProducts(id);
+  const result = await deleteProductFromTableSales(id);
+  return result;
+};
+
 module.exports = {
   findSaleById,
   findSaleAndProductsById,
@@ -62,4 +86,5 @@ module.exports = {
   insertOnSalesProductsTable,
   findAll,
   findById,
+  deleteSale,
 };

@@ -31,8 +31,17 @@ const insert = async (salesArray) => {
   return { type: null, message: result };
 };
 
+const deleteSale = async (id) => {
+  const result = await saleModel.deleteSale(id);
+  if (result.affectedRows <= 0) {
+    return { type: 404, message: 'Sale not found' };
+  }
+  return { type: null, message: '' };
+};
+
 module.exports = {
   insert,
   findAll,
   findById,
+  deleteSale,
 };
