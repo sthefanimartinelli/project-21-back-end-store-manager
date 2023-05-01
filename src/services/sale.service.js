@@ -39,9 +39,26 @@ const deleteSale = async (id) => {
   return { type: null, message: '' };
 };
 
+const updateSale = async (id, newSalesArray) => {
+  const error = await validateSaleInput(newSalesArray);
+  if (error.type) return error;
+
+  const doesSaleExists = await saleModel.findSaleById(id);
+  if (doesSaleExists === undefined) return { type: 404, message: 'Sale not found' };
+
+  const allPromises = newSalesArray.map((sale) => saleModel
+    .updateOnSalesProductsTable(sale.productId, sale.quantity, id));
+
+  await Promise.all(allPromises);
+
+  const resultOfUpdate = { saleId: id, itemsUpdated: newSalesArray };
+  return { type: null, message: resultOfUpdate };
+};
+
 module.exports = {
   insert,
   findAll,
   findById,
   deleteSale,
+  updateSale,
 };

@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const { saleService } = require('../../../src/services');
 const { saleModel } = require('../../../src/models');
 const { saleToInsert, resultInsertSale, wrongSaleToInsert, allSales, oneSale } = require('./mocks/sale.service.mock');
+const { validateSaleInput } = require('../../../src/services/validations/validateSaleInput');
 
 describe('Testes de services de sales', function () {
   describe('Testes da função insert', function () {
@@ -13,6 +14,8 @@ describe('Testes de services de sales', function () {
       expect(products.message).to.be.equal('"quantity" must be greater than or equal to 1');
     });
     it('Insere um sale corretamente e retorna um objeto', async function () {
+      sinon.stub(saleModel, 'findSaleById').onFirstCall().returns({ id: 1, name: 'Martelo de Thor' })
+        .onSecondCall().returns({ id: 2, name: 'Traje de encolhimento' });
       sinon.stub(saleModel, 'insertOnSalesTable').resolves(3);
       sinon.stub(saleModel, 'insertOnSalesProductsTable').resolves();
       sinon.stub(saleModel, 'findSaleAndProductsById').resolves(saleToInsert);

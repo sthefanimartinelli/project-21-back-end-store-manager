@@ -51,16 +51,16 @@
     "colId": "d60e98ec-4a7a-47ef-86e6-b2f49e565951",
     "containerId": "",
     "name": "http://localhost:3001/sales",
-    "url": "http://localhost:3001/products/2",
-    "method": "DELETE",
+    "url": "http://localhost:3001/sales/1",
+    "method": "PUT",
     "sortNum": 40000,
     "created": "2023-04-27T14:57:36.335Z",
-    "modified": "2023-05-01T15:54:44.818Z",
+    "modified": "2023-05-01T18:46:29.387Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 50\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 100\n  }\n]",
       "form": []
     },
     "tests": []
