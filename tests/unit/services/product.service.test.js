@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models');
-const { allProducts, oneProduct, newProduct } = require('./mocks/product.service.mock');
+const { allProducts, oneProduct, newProduct, updatedProduct } = require('./mocks/product.service.mock');
 
 describe('Testes de services de produtos', function () {
   describe('Testes da função findAll', function () { 
@@ -40,6 +40,44 @@ describe('Testes de services de produtos', function () {
 
       expect(products.type).to.be.equal(null);
       expect(products.message).to.be.deep.equal(newProduct);
+    });
+  })
+
+  describe('Testes da função update', function () {
+    it('Altera produto corretamente e retorna o produto alterado', async function () {
+      sinon.stub(productModel, 'update').resolves({ affectedRows: 1 });
+      sinon.stub(productModel, 'findById').resolves(updatedProduct);
+      const products = await productService.update(1, 'Laço da mulher maravilha');
+
+      expect(products.type).to.be.equal(null);
+      expect(products.message).to.be.deep.equal(updatedProduct);
+    });
+
+    it('Não encontra o produto e retorna erro', async function () {
+      sinon.stub(productModel, 'update').resolves({ affectedRows: 0 });
+      sinon.stub(productModel, 'findById').resolves();
+      const products = await productService.update(999, 'Laço da mulher maravilha');
+
+      expect(products.type).to.be.equal(404);
+      expect(products.message).to.be.deep.equal('Product not found');
+    });
+  })
+
+  describe('Testes da função delete', function () {
+    it('Deleta produto corretamente', async function () {
+      sinon.stub(productModel, 'deleteProduct').resolves({ affectedRows: 1 });
+      const deletedProduct = await productService.deleteProduct(1);
+
+      expect(deletedProduct.type).to.be.equal(null);
+      expect(deletedProduct.message).to.be.deep.equal('');
+    });
+
+    it('Não encontra o produto e retorna erro', async function () {
+      sinon.stub(productModel, 'deleteProduct').resolves({ affectedRows: 0 });
+      const deletedProduct = await productService.deleteProduct(999);
+
+      expect(deletedProduct.type).to.be.equal(404);
+      expect(deletedProduct.message).to.be.deep.equal('Product not found');
     });
   })
 

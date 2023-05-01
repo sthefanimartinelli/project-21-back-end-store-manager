@@ -6,7 +6,7 @@ chai.use(sinonChai);
 
 const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
-const { allProducts, oneProduct, newProduct } = require('./mocks/product.controller.mock');
+const { allProducts, oneProduct, newProduct, updatedProduct } = require('./mocks/product.controller.mock');
 
 describe('Testes de controller de produtos', function () {
   describe('Testes da função findAll', function () {
@@ -82,6 +82,65 @@ describe('Testes de controller de produtos', function () {
       expect(res.json).to.have.been.calledWith(newProduct);
     });
   })
+
+  describe('Testes da função update', function () {
+    it('Atualiza um produto corretamente e retorna o produto atualizado', async function () {
+      const req = {
+        body: { name: 'Laço da mulher maravilha' },
+        params: { id: 1 },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'update')
+        .resolves({ type: null, message: updatedProduct });
+
+      await productController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(updatedProduct);
+    });
+
+    it('Tenta atualizar produto que não existe e retorna erro', async function () {
+      const req = {
+        body: { name: 'Laço da mulher maravilha' },
+        params: { id: 999 },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productService, 'update')
+        .resolves({ type: 404, message: 'Product not found' });
+
+      await productController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+  })
+
+  it('Tenta deletar produto que não existe e retorna erro', async function () {
+    const req = {
+      params: { id: 999 },
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(productService, 'deleteProduct')
+      .resolves({ type: 404, message: 'Product not found' });
+
+    await productController.deleteProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
+
 
   afterEach(function () {
     sinon.restore();

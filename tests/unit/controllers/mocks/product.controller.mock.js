@@ -23,8 +23,14 @@ const newProduct = {
   "name": "Laço da mulher maravilha"
 };
 
+const updatedProduct = {
+  "id": 1,
+  "name": "Laço da mulher maravilha"
+};
+
 module.exports = {
   allProducts,
   oneProduct,
   newProduct,
+  updatedProduct,
 }

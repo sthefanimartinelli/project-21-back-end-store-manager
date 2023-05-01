@@ -34,6 +34,22 @@ describe('Testes de model de produtos', function () {
     });
   })
 
+  describe('Testes da função update', function () {
+    it('Altera corretamente um produto', async function () {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+      const result = await productModel.update(1, 'Laço da mulher maravilha');
+      expect(result.affectedRows).to.be.equal(1);
+    });
+  })
+
+  describe('Testes da função delete', function () {
+    it('Deleta corretamente um produto', async function () {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+      const result = await productModel.deleteProduct(1);
+      expect(result.affectedRows).to.be.equal(1);
+    });
+  })
+
   afterEach(function () {
     sinon.restore();
   });
