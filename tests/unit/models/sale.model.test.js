@@ -58,6 +58,23 @@ describe('Testes de model de sales', function () {
       expect(saleNotFound).to.be.deep.equal([]);
     });
   })
+
+  describe('Testes da função deleteSale', function () {
+    it('Apaga corretamente uma sale', async function () {
+      sinon.stub(connection, 'execute').onFirstCall().resolves([{ affectedRows: 1 }])
+        .onSecondCall().resolves([{ affectedRows: 1 }]);
+      const deletion = await saleModel.deleteSale();
+      expect(deletion).to.be.deep.equal({ affectedRows: 1 });
+    });
+  })
+
+  describe('Testes da função updateSale', function () {
+    it('Atualiza corretamente uma sale', async function () {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
+      const update = await saleModel.updateOnSalesProductsTable(1, 1, 1);
+      expect(update).to.be.deep.equal(1);
+    });
+  })
   
   afterEach(function () {
     sinon.restore();

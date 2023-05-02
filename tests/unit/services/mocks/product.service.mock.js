@@ -18,6 +18,11 @@ const oneProduct = {
   "name": "Martelo de Thor"
 };
 
+const secondProduct = {
+  "id": 2,
+  "name": "Laço da mulher maravilha"
+};
+
 const newProduct = {
   "id": 7,
   "name": "Laço da mulher maravilha"
@@ -33,4 +38,5 @@ module.exports = {
   oneProduct,
   newProduct,
   updatedProduct,
+  secondProduct,
 }

@@ -40,11 +40,11 @@ const deleteSale = async (id) => {
 };
 
 const updateSale = async (id, newSalesArray) => {
-  const error = await validateSaleInput(newSalesArray);
-  if (error.type) return error;
-
   const doesSaleExists = await saleModel.findSaleById(id);
   if (doesSaleExists === undefined) return { type: 404, message: 'Sale not found' };
+
+  const error = await validateSaleInput(newSalesArray);
+  if (error.type) return error;
 
   const allPromises = newSalesArray.map((sale) => saleModel
     .updateOnSalesProductsTable(sale.productId, sale.quantity, id));

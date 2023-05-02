@@ -7,6 +7,7 @@ chai.use(sinonChai);
 const { saleService } = require('../../../src/services');
 const { saleController } = require('../../../src/controllers');
 const { saleToInsert, resultInsertSale, wrongSaleToInsert, allSales, oneSale } = require('./mocks/sale.controller.mock');
+const { resultOfUpdate, update } = require('../services/mocks/sale.service.mock');
 
 describe('Testes de controller de sales', function () {
 
@@ -96,6 +97,83 @@ describe('Testes de controller de sales', function () {
         .resolves({ type: 404, message: 'Sale not found' });
 
       await saleController.findById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+  })
+
+  describe('Testes da função delete', function () {
+    it('Deleta corretamente uma sale', async function () {
+      const req = {
+        params: { id: 1 },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'deleteSale')
+        .resolves({ type: null, message: '' });
+
+      await saleController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+
+    it('Tenta deletar produto que não existe e retorna erro', async function () {
+      const req = {
+        params: { id: 999 },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'deleteSale')
+        .resolves({ type: 404, message: 'Sale not found' });
+
+      await saleController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+  })
+
+  describe('Testes da função update', function () {
+    it('Atualiza corretamente uma sale', async function () {
+      const req = {
+        params: { id: 1 },
+        body: update,
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'updateSale')
+        .resolves({ type: null, message: resultOfUpdate });
+
+      await saleController.updateSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(resultOfUpdate);
+    });
+
+    it('Tenta atualizar uma sale que não existe e retorna erro', async function () {
+      const req = {
+        params: { id: 999 },
+        body: update,
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(saleService, 'updateSale')
+        .resolves({ type: 404, message: 'Sale not found' });
+
+      await saleController.updateSale(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });

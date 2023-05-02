@@ -1,4 +1,4 @@
-const { saleModel } = require('../../models');
+const { productModel } = require('../../models');
 
 const validateSaleInput = async (salesArray) => {
   for (let index = 0; index < salesArray.length; index += 1) {
@@ -8,7 +8,7 @@ const validateSaleInput = async (salesArray) => {
     }
   }
 
-  const idsMapped = salesArray.map((sale) => saleModel.findSaleById(sale.productId));
+  const idsMapped = salesArray.map((sale) => productModel.findById(sale.productId));
   const results = await Promise.all(idsMapped);
 
   const anyIdIsUndefined = results.some((result) => result === undefined);
